@@ -3,5 +3,22 @@
 <mapper namespace="tws.repository.EmployeeMapper">
     <select id="selectAll" resultType="tws.entity.Employee">
         select * from `employee`;
+        
+        <select id="selectOne" resultType="tws.entity.Employee">
+        select * from `employee` where id = #{id};
     </select>
+    <insert id="insert">
+    insert into `employee`(`id`,`name`,`age`)
+    values(#{employee.id},#{employee.name},#{employee.age})
+    </insert>
+    
+     </update>
+    <insert id="updateOne">
+   update `employee` set
+   `name` = #{employee.name},
+    `age` = #{employee.age}
+    where 1 and id = #{id};
+    </update>
+    
+    
 </mapper>
