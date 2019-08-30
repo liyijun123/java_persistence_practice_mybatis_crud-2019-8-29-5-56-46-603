@@ -22,4 +22,6 @@ public interface EmployeeMapper {
 	Employee deleteOne(String id);
 
 	void getOne(String id, Employee employee);
+
+	List selectAll(int offset, int pageSize1);
 }

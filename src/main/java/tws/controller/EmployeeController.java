@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import tws.entity.Employee;
 import tws.repository.EmployeeMapper;
+import tws.service.EmployeeService;
 
 import java.net.URI;
 import java.util.List;
@@ -24,43 +26,49 @@ import java.util.UUID;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeMapper employeeMapper;
+	@Autowired
+	private EmployeeMapper employeeMapper;
 
+	@Autowired
+	private EmployeeService employeeService;
 
-    @GetMapping("")
-    public ResponseEntity<List<Employee>> getAll() {
-        return ResponseEntity.ok(employeeMapper.selectAll());
-    }
-    
+	@GetMapping("")
+	public ResponseEntity<Object> getAll(
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Employee> getOne(@PathVariable String id,@RequestBody Employee employee) {
-    	employeeMapper.getOne(id,employee);
-    	    return ResponseEntity.ok(employee);
-    }
-    
+			@RequestParam(required = false) int page, @RequestParam(required = false) int pageSize) {
+		return ResponseEntity.ok(employeeService.getEmployees(page, pageSize));
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Employee> getOne(@PathVariable String id) {
-    	Employee employee = employeeMapper.selectOne(id);
-        return ResponseEntity.ok(employee);
-    }
-    
-    
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Employee> deleteOne(@PathVariable String id) {
-    	Employee employee = employeeMapper.deleteOne(id);
-        return ResponseEntity.ok(employee);
-    }
-    
+	@GetMapping("")
+	public ResponseEntity<List<Employee>> getAll() {
+		return ResponseEntity.ok(employeeMapper.selectAll());
+	}
 
-    @PostMapping()
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-        String id = UUID.randomUUID().toString();
-        employee.setAge(id);
-        employeeMapper.addEmployee(employee);
-        return ResponseEntity.created(URI.create("/employees"+id)).build();
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<Employee> getOne(@PathVariable String id, @RequestBody Employee employee) {
+		employeeMapper.getOne(id, employee);
+		return ResponseEntity.ok(employee);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Employee> getOne(@PathVariable String id) {
+		Employee employee = employeeMapper.selectOne(id);
+		return ResponseEntity.ok(employee);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Employee> deleteOne(@PathVariable String id) {
+		Employee employee = employeeMapper.deleteOne(id);
+		return ResponseEntity.ok(employee);
+	}
+
+	
+	@PostMapping()
+	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+		String id = UUID.randomUUID().toString();
+		employee.setAge(id);
+		employeeMapper.addEmployee(employee);
+		return ResponseEntity.created(URI.create("/employees" + id)).build();
+	}
 
 }
