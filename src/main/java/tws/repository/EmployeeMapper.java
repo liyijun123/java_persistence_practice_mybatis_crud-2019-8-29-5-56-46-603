@@ -20,4 +20,6 @@ public interface EmployeeMapper {
     void updateOne(@Param("id")String id,@Param("employee")Employee employee);
 
 	Employee deleteOne(String id);
+
+	void getOne(String id, Employee employee);
 }

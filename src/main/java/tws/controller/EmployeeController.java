@@ -35,8 +35,8 @@ public class EmployeeController {
     
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> updateOne(@PathVariable String id,@RequestBody Employee employee) {
-    	employeeMapper.updateOne(id,employee);
+    public ResponseEntity<Employee> getOne(@PathVariable String id,@RequestBody Employee employee) {
+    	employeeMapper.getOne(id,employee);
     	    return ResponseEntity.ok(employee);
     }
     
@@ -46,6 +46,7 @@ public class EmployeeController {
     	Employee employee = employeeMapper.selectOne(id);
         return ResponseEntity.ok(employee);
     }
+    
     
     @DeleteMapping("/{id}")
     public ResponseEntity<Employee> deleteOne(@PathVariable String id) {
